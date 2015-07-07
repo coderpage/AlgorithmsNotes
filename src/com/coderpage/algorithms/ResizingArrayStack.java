@@ -17,21 +17,24 @@ public class ResizingArrayStack<Item> implements Iterable<Item> {
 
 	public void push(Item item) {
 		if (N == a.length) {
-			resizei(2 * a.length);
-			a[N++] = item;
+			resize(2 * a.length);
 		}
+		a[N++] = item;
 	}
 
 	public Item pop() {
+		if (N == 0) {
+			throw new IllegalStateException("已经没有元素了");
+		}
 		Item item = a[--N];
 		a[N] = null;
 		if (N > 0 && N == a.length / 4) {
-			resizei(a.length / 2);
+			resize(a.length / 2 );
 		}
 		return item;
 	}
 
-	private void resizei(int max) {
+	private void resize(int max) {
 		Item[] temp = (Item[]) new Object[max];
 		for (int i = 0; i < a.length; i++) {
 			temp[i] = a[i];
